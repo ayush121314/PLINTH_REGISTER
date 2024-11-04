@@ -53,6 +53,7 @@ const Payment = () => {
       alert('Failed to upload proof');
     }
     
+  };
 
   if (!bookingData) return <p>Loading...</p>;
 

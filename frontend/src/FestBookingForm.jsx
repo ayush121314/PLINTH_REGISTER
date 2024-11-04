@@ -112,6 +112,8 @@ const FestBookingForm = () => {
       console.error("Error in booking submission:", error);
     }
     
+  };
+
   useEffect(() => {
     calculatePrice();
   }, [referralCode, dayPass, members]);

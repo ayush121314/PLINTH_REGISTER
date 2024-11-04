@@ -94,13 +94,24 @@ const FestBookingForm = () => {
       totalPrice: total,
     };
     try {
-      const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/booking`, data);
-      navigate('/payment', { state: { booking: response.data.booking } });
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/booking`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+    
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+    
+      const result = await response.json();
+      navigate('/payment', { state: { booking: result.booking } });
     } catch (error) {
       console.error("Error in booking submission:", error);
     }
-  };
-
+    
   useEffect(() => {
     calculatePrice();
   }, [referralCode, dayPass, members]);

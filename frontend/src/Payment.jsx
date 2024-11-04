@@ -34,16 +34,25 @@ const Payment = () => {
     formData.append('bookingId', bookingData._id);
 
     try {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/upload-proof`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/upload-proof`, {
+        method: 'POST',
+        headers: {
+          // Note: 'Content-Type' should not be set explicitly when using FormData
+          // as the browser will set the correct boundary automatically
+        },
+        body: formData,
       });
-      
+    
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+    
       navigate('/confirmation');
     } catch (error) {
       console.error('Error uploading proof:', error);
       alert('Failed to upload proof');
     }
-  };
+    
 
   if (!bookingData) return <p>Loading...</p>;
 
